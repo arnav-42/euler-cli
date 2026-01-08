@@ -4,8 +4,6 @@ A lightweight command-line tool to scaffold **Project Euler** problems in **C** 
 
 It creates a problem folder with a timing-ready solution template and a Markdown file containing the problem statement (fetched from Project Euler’s public `minimal` endpoint).
 
----
-
 ## Install (Linux / WSL)
 
 ~~~bash
@@ -13,8 +11,6 @@ curl -fsSL https://raw.githubusercontent.com/arnav-42/euler-cli/main/install.sh 
 ~~~
 
 This installs the `euler` command to `/usr/local/bin`.
-
----
 
 ## Usage
 
@@ -34,15 +30,11 @@ p10/
 - `main.c` / `main.jl`: solution skeleton with timing
 - `p10.md`: problem statement in Markdown
 
----
-
 ## Requirements
 
 - bash  
 - curl  
 - pandoc  
-
----
 
 ## Uninstall
 
@@ -50,15 +42,8 @@ p10/
 sudo rm /usr/local/bin/euler
 ~~~
 
----
 
 ## Notes
 
 - In this repository, generated `p*/` folders are local test artifacts and are ignored.
 - When using `euler` in your own Project Euler repository, the generated folders are intended to be committed as part of your solutions.
-
----
-
-## License
-
-MIT
