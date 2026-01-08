@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+set -e
+
+PROB=""
+LANG=""
+
+
+for arg in "$@"; do
+  case "$arg" in
+    p=*)
+      PROB="${arg#p=}"
+      ;;
+    lang=*)
+      LANG="${arg#lang=}"
+      ;;
+    *)
+      echo "Unknown argument: $arg"
+      exit 1
+      ;;
+  esac
+done
+
+if [[ -z "$PROB" || -z "$LANG" ]]; then
+  echo "Usage: euler p=<number> lang=<c|julia>"
+  exit 1
+fi
+
+DIR="p${PROB}"
+
+if [[ -e "$DIR" ]]; then
+  echo "Error: $DIR already exists"
+  exit 1
+fi
+
+mkdir "$DIR"
+
+
+
+
+curl -fsSL "https://projecteuler.net/minimal=${PROB}" \
+| pandoc -f html -t gfm \
+> "$DIR/p${PROB}.md"
+
+
+
+
+case "$LANG" in
+  c)
+    cat > "$DIR/main.c" << 'EOF'
+#include <stdio.h>
+#include <time.h>
+//#include <stdlib.h>
+//#include <math.h>
+
+int main(void) {
+
+    clock_t t0 = clock();
+
+
+
+    clock_t t1 = clock();
+
+
+
+    double cpu_time_used = ((double)(t1 - t0)) / CLOCKS_PER_SEC;
+    printf("Time: %f seconds\n", cpu_time_used);
+    return 0;
+
+}
+EOF
+    ;;
+  julia)
+    cat > "$DIR/main.jl" << 'EOF'
+using Printf
+
+function main()
+    t0 = time_ns()
+
+
+
+    t1 = time_ns()
+
+    cpu_time_used = (t1 - t0) / 1e9
+    @printf("Time: %f seconds\n", cpu_time_used)
+end
+
+main()
+EOF
+    ;;
+  *)
+    echo "Invalid language: $LANG (use c or julia)"
+    exit 1
+    ;;
+esac
+
+echo "Created $DIR (lang=$LANG)"
